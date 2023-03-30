@@ -1,0 +1,109 @@
+{% extends 'advert_base.html' %}
+{% block content %}
+{% load static %}
+<!-- Latest Products -->
+<section style="background: #CDCCCD; border-radius: 30px; margin: 15px;">
+  <div class="latest-products text-center">
+    <h1>Latest <span class="text-light">Products</span></h1>
+    <div  style=" border-style: dashed; border-color: #d45b5f; margin: 15px;">
+      <a href="#">All categories<img style="width: 20px; margin-left: 20px;" src="{% static 'images/arrow-alt-right.svg' %}" alt=""></a>
+    </div>
+    <div class="latest-products-wrapper row">
+      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+        <h5 class="title">Dutch designer Ward Wijnant</h5>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
+        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
+      </div>
+      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+        <h5 class="title">Dutch designer Ward Wijnant</h5>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
+        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
+      </div>
+      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+        <h5 class="title">Dutch designer Ward Wijnant</h5>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
+        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
+      </div>
+      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+        <h5 class="title">Dutch designer Ward Wijnant</h5>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
+        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
+      </div>
+      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+        <h5 class="title">Dutch designer Ward Wijnant</h5>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
+        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
+      </div>
+    </div>
+
+    <br>
+    <!-- Pagination -->
+    <div class="text-center text-light">
+      Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
+    </div>
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+      {% endif %}
+      <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+      <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+      {% if page_obj.has_next and page_obj.paginator.num_pages != 3 %}
+      <li class="page-item"><a class="page-link" href="#">...</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}}</a></li>
+      <li class="page-item">
+        <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+
+    <br>
+    
+  </div>
+</section>
+
+<!-- Achievements --> 
+<section class="achievements">
+  <div class="container">
+    <h2>Don't Just Take <br>
+      our Word for it!
+    </h2>
+    <div class="achievement-items">
+      <div class="item" data-aos="zoom-in" data-aos-delay="250">
+        <p class="number">570</p>
+        <p class="name">Orders</p>
+      </div>
+      <div class="item" data-aos="zoom-in" data-aos-delay="300">
+        <p class="number">570</p>
+        <p class="name">Active User</p>
+      </div>
+      <div class="item" data-aos="zoom-in" data-aos-delay="250">
+        <p class="number">570</p>
+        <p class="name">Positive Feedback</p>
+      </div>
+      <div class="item" data-aos="zoom-in" data-aos-delay="300">
+        <p class="number">570</p>
+        <p class="name">+ rating</p>
+      </div>
+    </div>
+  </div>
+</section> 
+{% endblock %}

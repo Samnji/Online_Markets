@@ -1,0 +1,92 @@
+{% extends 'advert_base.html' %}
+{% block content %}
+{% load static %}
+<div class="py-5 text-center">
+  <h2>Shopping <span class="text-light">Cart List</span></h2>
+  <p class="lead">Below is the list of the products you wish to buy from us and if you are a valued customer, you can enter the promo code for discounts.</p>
+</div>
+
+<div class="row g-5">
+  <div class="col-md-5 col-lg-4 order-md-last">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-danger">Your cart</span>
+      <span class="badge bg-danger rounded-pill">3</span>
+    </h4>
+    <ul class="list-group mb-3">
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0">Product name</h6>
+          <small class="text-muted">Brief description</small>
+        </div>
+        <span class="text-muted">Ksh 12</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0">Second product</h6>
+          <small class="text-muted">Brief description</small>
+        </div>
+        <span class="text-muted">Ksh 8</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0">Third item</h6>
+          <small class="text-muted">Brief description</small>
+        </div>
+        <span class="text-muted">Ksh 5</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total (Ksh)</span>
+        <strong>20</strong>
+      </li>
+    </ul>
+
+    <form class="card p-2">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Promo code">
+        <button type="submit" class="btn btn-danger">Redeem</button>
+      </div>
+    </form>
+
+    <a href="{% url 'checkout' %}"><button class="w-100 btn btn-primary btn-lg" style="margin-top: 10px;">Continue to checkout</button></a>
+
+  </div>
+  <div class="col-md-7 col-lg-8">
+    <div class="article row">
+      <div class="col-sm-4">
+        <img  style="width: 80%; border-radius: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+      </div>
+      <div class="col-sm-8">
+        <h4 class="title" style="color: #d45b5f;">Dutch designer Ward Wijnant</h4>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h4 class="card-title pricing-card-title">Ksh 15,000 <small class="text-muted">/ set</small></h4>
+        
+        <p><button type="button" class="btn btn-md btn-primary">Remove item</button><span style="float: right;"><button class="btn btn-md"><span class="badge bg-danger" style="font-size: 20px;">+</span></button> 1 <button class="btn btn-md"><span class="badge bg-danger" style="font-size: 20px;">-</span></button></span></p>
+      </div> 
+    </div>
+    <div class="article row">
+      <div class="col-sm-4">
+        <img style="width: 80%; border-radius: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+      </div>
+      <div class="col-sm-8">
+        <h4 class="title" style="color: #d45b5f;">Dutch designer Ward Wijnant</h4>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h4 class="card-title pricing-card-title">Ksh 15,000 <small class="text-muted">/ set</small></h4>
+        
+        <p><button type="button" class="btn btn-md btn-primary">Remove item</button><span style="float: right;"><button class="btn btn-md"><span class="badge bg-danger" style="font-size: 20px;">+</span></button> 1 <button class="btn btn-md"><span class="badge bg-danger" style="font-size: 20px;">-</span></button></span></p>
+      </div>
+    </div>
+    <div class="article row">
+      <div class="col-sm-4">
+        <img style="width: 80%; border-radius: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
+      </div>
+      <div class="col-sm-8">
+        <h4 class="title" style="color: #d45b5f;">Dutch designer Ward Wijnant</h4>
+        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
+        <h4 class="card-title pricing-card-title">Ksh 15,000 <small class="text-muted">/ set</small></h4>
+        
+        <p><button type="button" class="btn btn-md btn-primary">Remove item</button><span style="float: right;"><button class="btn btn-md"><span class="badge bg-danger" style="font-size: 20px;">+</span></button> 1 <button class="btn btn-md"><span class="badge bg-danger" style="font-size: 20px;">-</span></button></span></p>
+      </div>
+    </div>         
+  </div>
+</div>
+{% endblock %}

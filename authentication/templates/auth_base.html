@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<body>
+    <div class="container-login100">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

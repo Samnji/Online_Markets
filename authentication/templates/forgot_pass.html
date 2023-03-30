@@ -1,0 +1,19 @@
+{% extends 'auth_base.html' %}
+{% block content %}
+{% load static %}
+<form class="login100-form validate-form">
+    <span class="login100-form-title p-b-37">
+        <b>Forgot Password</b>
+    </span>
+    <div class="wrap-input100 validate-input m-b-20" data-validate="Enter email">
+        <input class="input100" type="email" name="email" placeholder="Email">
+        <b><span class="focus-input100"></span></b>
+    </div>
+    <div class="container-login100-form-btn">
+        <button class="login100-form-btn">Submit</button>
+    </div>
+    <div class="text-center">
+        <b><a href="{% url 'signin' %}" class="txt2 hov1">Sign In</a></b>
+    </div>
+</form>
+{% endblock %}

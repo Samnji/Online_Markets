@@ -1,0 +1,51 @@
+{% extends 'advert_base.html' %}
+{% block content %}
+{% load static %}
+<div class="card-body">
+    <h4 class="card-title text-center">Post Product</h4>
+    <p class="card-description text-center">
+      This form allows you to post the product you want to sell on our platform
+    </p>
+    <form class="forms-sample">
+        <div class="form-group">
+            <label for="productName">Product Name</label>
+            <input type="text" class="form-control" id="productName" placeholder="eg Vitron Smart 32 FRAMELESS Android TV HTC3200S Netflix & Youtube." required>
+        </div>
+        <div class="form-group">
+            <label for="productDescription">Product Description</label>
+            <textarea class="form-control" id="productDescription" placeholder="The HTC3200S VITRON 32 inch, HD Smart Android LED TV features sharply and vividly conveys the colour of the image making it true to life as you view it." rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label>Upload Image</label>
+            <input type="file" name="image" class="file-upload-default" required>
+            <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
+        </div>
+        <div class="form-group">
+            <label for="exampleSelectGender">Product Type</label>
+            <select class="form-control" id="exampleSelectGender" required>
+                <option>TVs & Audio</option>
+                <option>Phones & Tablets</option>
+                <option>Fashion</option>
+                <option>Gaming</option>
+                <option>Appliances</option>
+                <option>Computing</option>
+                <option>Baby Products</option>
+                <option>Phones & Tablets</option>
+                <option>Health & Beauty</option>
+                <option>Sporting Goods</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="productOldPrice">Product's Old Price</label>
+            <input type="number" min="0" step="1" class="form-control" id="productOldPrice" placeholder="eg 38000">
+        </div>
+        <div class="form-group">
+            <label for="productNewPrice">Product's New Price</label>
+            <input type="number" min="0" step="1" class="form-control" id="productNewPrice" placeholder="eg 35000" required>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary me-2">Post</button>
+        <button class="btn btn-light" href="{% url 'home' %}">Cancel</button>
+    </form>
+</div>
+{% endblock %}
