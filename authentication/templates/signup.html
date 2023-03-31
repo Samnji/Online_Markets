@@ -1,10 +1,12 @@
 {% extends 'auth_base.html' %}
 {% block content %}
 {% load static %}
-<form class="login100-form validate-form">
+<form class="login100-form validate-form" method='POST'>
     <span class="login100-form-title p-b-37">
         <b>Sign Up</b>
     </span>
+    {% csrf_token %}
+    {% include 'includes/messages.html' %}
     <div class="wrap-input100 validate-input m-b-20" data-validate="Enter username">
         <input class="input100" type="text" name="username" placeholder="Username">
         <b><span class="focus-input100"></span></b>
@@ -24,8 +26,8 @@
     <div class="container-login100-form-btn">
         <button class="login100-form-btn">Sign Up</button>
     </div>
-    <div class="text-center">
-        <b><a href="{% url 'signin' %}" class="txt2 hov1">Sign In</a></b>
+    <div class="links text-center p-t-36">
+        <b><a href="{% url 'signin' %}" class="txt2 hov1" style="text-decoration: none;">Sign In</a></b>
     </div>
 </form>
 {% endblock %}

@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib import auth
 
 def signup(request):
+    context = {}
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email'] 
@@ -60,48 +61,46 @@ def signup(request):
                 if symbol:
                     score = score + 1
 
-
                 context['score'] = score
 
 
                 if score == 1 or score == 2:
                     messages.info(request, f"""Weak password, 
                         You password strength score is: {score}/5""")
-                    return redirect('create')
+                    return redirect('signup')
 
                 elif score == 3 or score == 4:
                     messages.info(request, "This password could be improved.")
-                    return redirect('create')
+                    return redirect('signup')
 
                 elif score == 5:
                     # Saving the data
-                    user = Users.objects.create_user(username=username, email=email, password=password)
-                    
+                    user = User.objects.create_user(username=username, email=email, password=password1)
+
+                    user.save
                     return redirect('signin')
         else:
             messages.info('Password Not Matching')
             
             return redirect('signup')             
 
-    return render(request, 'signup.html')
+    return render(request, 'signup.html', context)
 
 def signin(request):
     if request.method == 'POST':
         username = request.POST['username']
-        email = request.POST['email'] 
         password = request.POST['password']
 
-        username_exists = auth.authenticate(username=username, password=password)
-        email_exists = auth.authenticate(email=email, password=password)
+        # Checking if the email provided exists
+        if User.objects.filter(email=username).exists():
+            the_user = User.objects.get(email=username)
+            username = the_user.username
 
-        if username_exists:
-            auth.login(request, username_exists)
+        user = auth.authenticate(username=username, password=password)
+
+        if user:
+            auth.login(request, user)
             
-            return redirect('home')
-
-        if  email_exists:
-            auth.login(request, email_exists)
-
             return redirect('home')
 
         else:

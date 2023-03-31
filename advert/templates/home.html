@@ -4,46 +4,20 @@
 <!-- Latest Products -->
 <section style="background: #CDCCCD; border-radius: 30px; margin: 15px;">
   <div class="latest-products text-center">
-    <h1>Latest <span class="text-light">Products</span></h1>
+    <h1><b>Latest <span class="text-light">Products</span></b></h1>
     <div  style=" border-style: dashed; border-color: #d45b5f; margin: 15px;">
       <a href="#">All categories<img style="width: 20px; margin-left: 20px;" src="{% static 'images/arrow-alt-right.svg' %}" alt=""></a>
     </div>
     <div class="latest-products-wrapper row">
+      {% for product in object_list %}
       <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
-        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
-        <h5 class="title">Dutch designer Ward Wijnant</h5>
-        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
-        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
+        <img style="margin-top: 10px;" src="{{product.image.url}}" alt="">
+        <h5 class="title">{{product.name}}</h5>
+        <p>{{product.description}}</p>
+        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh {{product.new_price}} {% if product.old_price %}<small class="text-decoration-line-through fw-light text-secondary-emphasis">Ksh {{product.old_price}}</small>{% endif %}</h6>
         <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
       </div>
-      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
-        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
-        <h5 class="title">Dutch designer Ward Wijnant</h5>
-        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
-        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
-        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
-      </div>
-      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
-        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
-        <h5 class="title">Dutch designer Ward Wijnant</h5>
-        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
-        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
-        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
-      </div>
-      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
-        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
-        <h5 class="title">Dutch designer Ward Wijnant</h5>
-        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
-        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
-        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
-      </div>
-      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
-        <img style="margin-top: 10px;" src="{% static 'images/sofa1.jpg' %}" alt="">
-        <h5 class="title">Dutch designer Ward Wijnant</h5>
-        <p>explores sawing techniques resulting in geometric patchworks that make the wood grains pop in his BLEND collection.</p>
-        <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh 15,000 <small class="text-muted">/ set</small></h6>
-        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
-      </div>
+      {% endfor %}
     </div>
 
     <br>
@@ -92,7 +66,7 @@
         <p class="name">Orders</p>
       </div>
       <div class="item" data-aos="zoom-in" data-aos-delay="300">
-        <p class="number">570</p>
+        <p class="number">{{users}}</p>
         <p class="name">Active User</p>
       </div>
       <div class="item" data-aos="zoom-in" data-aos-delay="250">

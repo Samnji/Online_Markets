@@ -275,7 +275,7 @@ footer .copyright p a:hover {
 color: #d45b5f;
 }
 
-/* Mobile View */
+/* Other Devices' View if not Mobile View */
 @media only screen and (min-width: 600px) {
   .the-container {
     color: #1b1005; 
@@ -326,12 +326,21 @@ color: #d45b5f;
               </li>    
             </ul>
             <ul class="right navbar-nav ms-auto">
+              {% if user.is_authenticated %}
+              <li class="nav-card-item-right">
+                <a class="nav-link" href="{% url 'signin' %}">{{user.username}}</a>
+              </li>
+              <li class="nav-card-item-right create-account">
+                <a class="nav-link" href="{% url 'logout' %}" disable="">Logout</a>
+              </li>  
+              {% else %}
               <li class="nav-card-item-right">
                 <a class="nav-link" href="{% url 'signin' %}">Sign in</a>
               </li>
               <li class="nav-card-item-right create-account">
                 <a class="nav-link" href="{% url 'signup' %}">Create account</a>
-              </li>       
+              </li>
+              {% endif %}      
             </ul>
           </div>
         </div>
@@ -339,9 +348,11 @@ color: #d45b5f;
     <div class="the-container">
 
       <!-- Login Alert -->
+      {% if user.is_authenticated == False %}
       <div class="alert1" style="background-color: #171515;">
         <h5 class="text-light text-center">Login to have the best experience</h5>
       </div>
+      {% endif %}
       <!--
       <div class="row" style="margin: 10px;">
       <div class="banner col-sm-4">
@@ -355,8 +366,8 @@ color: #d45b5f;
       </div>
       -->
     <main>
-    {% block content %}
-    {% endblock %}
+      {% block content %}
+      {% endblock %}
     </main>
 
     <!-- Footer -->
@@ -412,7 +423,7 @@ color: #d45b5f;
       </div>
       <div class="copyright">
         <div class="copyright pt-4 text-muted text-center">
-          <p>&copy; 2022 Online-Markets | Created by <a href="https://samuelnjiiri.netlify.app/">Samuel Njiiri</a> </p>
+          <p>&copy; <script>document.write(new Date().getFullYear())</script> Online-Markets | Created by <a href="https://samuelnjiiri.netlify.app/">Samuel Njiiri</a> </p>
         </div>
       </div>
     </footer>

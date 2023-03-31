@@ -1,10 +1,12 @@
 {% extends 'auth_base.html' %}
 {% block content %}
 {% load static %}
-<form class="login100-form validate-form">
+<form class="login100-form validate-form" method='POST'>
     <span class="login100-form-title p-b-37">
         <b>Sign In</b>
     </span>
+    {% csrf_token %}
+    {% include 'includes/messages.html' %}
     <div class="wrap-input100 validate-input m-b-20" data-validate="Enter username or email">
         <input class="input100" type="text" name="username" placeholder="Username or Email">
         <b><span class="focus-input100"></span></b>
@@ -16,11 +18,14 @@
     <div class="container-login100-form-btn">
         <button class="login100-form-btn">Sign In</button>
     </div>
-    <div class="text-center p-b-36">
-        <b><a href="{% url 'forgot_pass' %}" class="txt2 hov1">Forgot Password</a></b>
+    <div class="text-center p-b-36 p-t-36">
+        <b><a href="{% url 'forgot_pass' %}" class="txt2 hov1" style="text-decoration: none;">Forgot Password</a></b>
     </div>
-    <div class="text-center">
-        <b><a href="{% url 'signup' %}" class="txt2 hov1">Sign Up</a></b>
+    <div class="text-center p-b-24">
+        <b><a href="{% url 'home' %}" class="txt2 hov1" style="text-decoration: none;">Home</a></b>
+    </div>
+    <div class="text-center align-right">
+        <b><a href="{% url 'signup' %}" class="txt2 hov1" style="text-decoration: none;">Sign Up</a></b>
     </div>
 </form>
 {% endblock %}
