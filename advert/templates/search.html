@@ -3,13 +3,10 @@
 {% load static %}
 <!-- Latest Products -->
 <section {% if user.is_authenticated %} style="background: #CDCCCD; border-radius: 30px; margin: 15px; margin-top: 110px;" {% else%} style="background: #CDCCCD; border-radius: 30px; margin: 15px;" {% endif %}>
-  <div class="all-products text-center">
-    <h1><b>All <span class="text-light">Products</span></b></h1>
+  <div class="latest-products text-center">
+    <h1><b>Latest <span class="text-light">Products</span></b></h1>
     <div  style=" border-style: dashed; border-color: #d45b5f; margin: 15px;">
       <a href="#">All categories<img style="width: 20px; margin-left: 20px;" src="{% static 'images/arrow-alt-right.svg' %}" alt=""></a>
-    </div>
-    <div class="home-alert">
-    {% include 'includes/alerts.html' %}
     </div>
     <div class="search-bar">
       <form class="form" action="{% url 'search' %}" method="get">
@@ -24,6 +21,7 @@
             <option>Appliance</option>
             <option>Computing</option>
             <option>Baby Product</option>
+            <option>Phone & Tablet</option>
             <option>Health & Beauty</option>
             <option>Sporting Good</option>
             <option>Furniture</option>
@@ -36,14 +34,15 @@
         </div>
       </form>
     </div>
-    <div class="all-products-wrapper row">
-      {% for product in object_list %}
+    {% include 'includes/messages.html' %}
+    <div class="latest-products-wrapper row">
+      {% for product in category_results %}
       <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
         <img style="margin-top: 10px;" src="{{product.image.url}}" alt="">
         <h5 class="title">{{product.name}}</h5>
         <p>{{product.description}}</p>
         <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh {{product.new_price}} {% if product.old_price %}<small class="text-decoration-line-through fw-light text-secondary-emphasis">Ksh {{product.old_price}}</small>{% endif %}</h6>
-        <a href="{% url 'add_to_cart' product_id=product.id %}" style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary text-light">Add to Cart</a>
+        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
       </div>
       {% endfor %}
     </div>

@@ -164,7 +164,7 @@ iframe {
 .container-login100 {
     position: relative;
     height: 120%;
-    background-image: url("../images/bg-01.jpg");
+    background-image: url('../images/bg1.jpg');
     background-size: cover;
     background-position: center;
     z-index: 0;

@@ -1,16 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 FURNITURE_CHOICES = (
-    ('TVs & Audio', 'TVs & Audio'),
-    ('Phones & Tablets', 'Phones & Tablets'),
+    ('TV & Audio', 'TV & Audio'),
+    ('Phones & Tablet', 'Phones & Tablet'),
     ('Fashion', 'Fashion'),
     ('Gaming', 'Gaming'),
     ('Health & Beauty','Health & Beauty'),
-    ('Appliances', 'Appliances'),
+    ('Appliance', 'Appliance'),
     ('Computing', 'Computing'),
-    ('Baby Products', 'Baby Products'),
-    ('Sporting Goods','Sporting Goods'),
+    ('Baby Product', 'Baby Product'),
+    ('Sporting Good','Sporting Good'),
     ('Furniture','Furniture'),
 )
 
@@ -19,22 +20,24 @@ class Product(models.Model):
     name = models.CharField(max_length = 100)
     description = models.TextField(max_length = 500)
     image = models.ImageField(upload_to="images/")
-    category = models.CharField(choices=FURNITURE_CHOICES, max_length=20)
+    category = models.CharField(choices=FURNITURE_CHOICES, max_length=50)
     old_price = models.PositiveIntegerField(null=True, blank=True)
     new_price = models.PositiveIntegerField()
-
+    
     def __str__(self):
         return self.name
 
-class OrderProduct(models.Model):
+class ProductOrder(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
+    ordered = models.BooleanField(default=False)
+    quantity = models.IntegerField(default=1)
     def __str__(self):
-        return self.product.name
+        return f'{self.quantity} {self.product.name}'
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(OrderProduct)
+    items = models.ManyToManyField(ProductOrder)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)

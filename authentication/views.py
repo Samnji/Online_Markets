@@ -20,6 +20,13 @@ def signup(request):
 
             else:
                 # Checking for password strength before saving the data
+                strength_tests = """
+                . Password should be more than 8 characters long,
+                Password should contain lowercase letters,
+                Password should contain uppercase letters,
+                Password should contain numbers,
+                Password should contain symbols[ '!', '£', '$', '%', '&', '<', '*', '@', '#', '^']
+                """
                 score = 0
                 length = 0
                 lower = False
@@ -66,11 +73,11 @@ def signup(request):
 
                 if score == 1 or score == 2:
                     messages.info(request, f"""Weak password, 
-                        You password strength score is: {score}/5""")
+                        You password strength score is: {score}/5""" + strength_tests)
                     return redirect('signup')
 
                 elif score == 3 or score == 4:
-                    messages.info(request, "This password could be improved.")
+                    messages.info(request, "This password could be improved." + strength_tests)
                     return redirect('signup')
 
                 elif score == 5:
@@ -80,7 +87,7 @@ def signup(request):
                     user.save
                     return redirect('signin')
         else:
-            messages.info('Password Not Matching')
+            messages.info(request, 'Password Not Matching')
             
             return redirect('signup')             
 
