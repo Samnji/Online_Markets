@@ -15,6 +15,18 @@ class ProductListView(ListView):
     template_name = 'home.html'
     paginate_by = 5
     
+    # unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    
+    # if unordered_products.exists():
+    #     product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+    #     context = {
+    #         'total_products_price': total_products_price,
+    #         'product_orders': product_orders,
+    #         'total_products_quantity': total_products_quantity,
+    #         # 'total_products': total_products
+    #     }
+    
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     users = User.objects.count()
@@ -35,14 +47,26 @@ class ProductListView(ListView):
     #     print(context)
     
 def search(request):
+    context = {}
     category = request.GET.get('category')
+    unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    
+    if unordered_products.exists():
+        product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+        context = {
+            'total_products_price': total_products_price,
+            'product_orders': product_orders,
+            'total_products_quantity': total_products_quantity,
+        }
 
     try:
         price = int(request.GET.get('price'))
     except ValueError:
+
         messages.info(request, "The price must be initialized with a number")
 
-        return render(request, 'search.html')
+        return render(request, 'search.html', context)
 
     print(category)
     print(type(price))
@@ -64,16 +88,74 @@ def search(request):
         # If page is not an integer, deliver the first page.
         category_results = paginator.page(1)
 
-    context = {
-
-        'category_results': category_results,
-    }
+    context['category_results'] = category_results
 
     return render(request, 'search.html', context)
 
+def calculateTotal(request):
+    unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    product_orders = ProductOrder.objects.filter(user=request.user, ordered=False)
+    if unordered_products.exists():
+        # total_products = ProductOrder.objects.count() 
+        total_products_quantity = 0
+        total_products_price = 0
+
+
+        for product_order in product_orders:
+
+            total_products_quantity += product_order.quantity
+            total_products_price += product_order.quantity * product_order.product.new_price
+
+    
+        return (product_orders, total_products_quantity, total_products_price)
+
+@login_required(login_url='signin')
+def cart(request):
+    unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    
+    if unordered_products.exists():
+        product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+        context = {
+            'total_products_price': total_products_price,
+            'product_orders': product_orders,
+            'total_products_quantity': total_products_quantity,
+        }
+        
+        if request.method == 'POST':
+            if 'promo_code' in request.POST:        
+                promo_code = request.POST['promo_code']
+
+                if promo_code == "This is the promo code":
+                    context['total_products_price'] -= 1000
+
+                    saved_info = Shipping.objects.filter(user=request.user, save_info=True)
+                    if saved_info.exists():
+                        save_info = True
+                        context['save_info'] = save_info
+                        context['saved_info'] = saved_info
+
+                    messages.success(request, "Hurraay! The promo code was correct and the total price of your products have been reduced by Ksh 1000")
+
+                    return render(request, 'checkout.html', context)
+
+                else:
+                    messages.info(request, f"The promo code was incorrect and the total price of your products is still {total_products_price}")
+
+                    return render(request, 'cart.html', context)
+
+            else:
+                return render(request, 'checkout.html', context)
+        return render(request, 'cart.html', context)
+
+    else:
+        messages.info(request, "You haven't added any product into cart yet")
+
+        return render(request, 'cart.html')
+    
+
 @login_required(login_url='signin')
 def add_to_cart(request, product_id):
-    context = {}
     # Check if the product exists and get its fields
     product = get_object_or_404(Product, id=product_id)
 
@@ -91,9 +173,9 @@ def add_to_cart(request, product_id):
         # Check if the product order is in the order
         if order.items.filter(product=product_id):
             product_order.quantity  += 1
-            product_order.save
+            product_order.save()
 
-            messages.success(request, f"{product.name} quantity has been added to your cart!")
+            messages.success(request, f"{product.name} quantity has been added in your cart!")
 
             return redirect('cart')
         else:
@@ -112,40 +194,181 @@ def add_to_cart(request, product_id):
 
         order.items.add(product_order)
 
-        messages.success(request, f"Your order has been created and {product.name} added to your cart!")
+        messages.success(request, f"Your order has been created and {product.name} added to your cart")
 
         return redirect('home')
 
 @login_required(login_url='signin')
-def cart(request):
-    unordered_products = Order.objects.filter(user=request.user, ordered=False)
-    product_orders = ProductOrder.objects.filter(user=request.user)
-    if unordered_products.exists():
-        total_products = ProductOrder.objects.count() 
+def remove_from_cart(request, product_id):
+    # Check if the product exists and get its fields
+    product = get_object_or_404(Product, id=product_id)
+    product_order = ProductOrder.objects.get(product=product, ordered=False)
+    product_order.delete()
+    messages.info(request, f"{product.name} removed from your cart.")
 
-        context = {
-            'product_orders': product_orders,
-            'total_products': total_products
-        }
+    return redirect('cart')
     
-        return render(request, 'cart.html', context)
+@login_required(login_url='signin')
+def reduce_from_cart(request, product_id):
+    # Check if the product exists and get its fields
+    product = get_object_or_404(Product, id=product_id)
+
+    # Check if there is still an order that has not yet been ordered
+    order_qs = Order.objects.filter(user=request.user, ordered=False)
+    if order_qs.exists():
+        order = order_qs[0]
+
+        # Check if the product order is in the order
+        if order.items.filter(product=product_id):
+            product_order = ProductOrder.objects.filter(
+                    user=request.user,
+                    product=product,
+                    ordered=False,
+
+                )[0]
+            if product_order.quantity > 1:
+                product_order.quantity  -= 1
+                product_order.save()
+                
+                messages.success(request, f"{product.name} quantity has been reduced in your cart.")
+
+                return redirect('cart')
+            
+            elif product_order.quantity == 1:
+                # Check if the product exists and get its fields
+                product = get_object_or_404(Product, id=product_id)
+                product_order = ProductOrder.objects.get(product=product, ordered=False)
+                product_order.delete()
+                messages.info(request, f"{product.name} removed from your cart.")
+
+                return redirect('cart')
+
+            else:
+                messages.info(request, f"You can't reduce {product.name}'s quantity any more.")
+
+                return redirect('cart')
+        else:
+            messages.info(request, f"{product.name} wasn't to your cart!")
+
+            return redirect('cart')
 
     else:
-        messages.info(request, "You haven't added any product into cart yet")
+        messages.info(request, f"You don't have an active order!")
 
-        return render(request, 'cart.html')
+        return redirect('home')
 
 
 @login_required(login_url='signin')
 def checkout(request):
-    return render(request, 'checkout.html')
+    context = {}
+
+    product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+    counties = County.objects.all()
+
+    context = {
+        'total_products_price': total_products_price,
+        'product_orders': product_orders,
+        'total_products_quantity': total_products_quantity,
+        'counties': counties,
+    }
+    saved_info = Shipping.objects.filter(user=request.user, save_info=True)
+    if saved_info.exists():
+        save_info = True
+        context['save_info'] = save_info
+        context['saved_info'] = saved_info
+
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        phone_number = request.POST['phone_number']
+        address = request.POST['address']
+        county = request.POST['county']
+
+        if 'save_info' in request.POST:
+            save_info = True
+
+        else:
+            save_info = False
+        
+        user = User.objects.get(username=request.user)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+
+        # Checking if the user shipping details exists and update
+        if Shipping.objects.filter(user=request.user).exists():
+            user_shipping_details = Shipping.objects.get(user=request.user)
+            user_shipping_details.phone_number = phone_number
+            user_shipping_details.address = address
+            user_shipping_details.county = county
+            user_shipping_details.save_info = save_info
+            user_shipping_details.save()
+        else:
+            Shipping.objects.create(
+                user=request.user,
+                phone_number=phone_number,
+                address=address,
+                county =county,
+                save_info=save_info,
+            )
+
+        
+        # Check if there is any product that unordered then assign ordered
+        if product_orders.exists():
+            for unordered_product_order in product_orders:
+                unordered_product_order.ordered = True
+                unordered_product_order.save()
+        
+        # Check if there is still an order that has not yet been ordered
+        order_qs = Order.objects.filter(user=request.user, ordered=False)
+        if order_qs.exists():
+            order = order_qs[0]
+            order.ordered = True
+            order.save()
+
+        return HttpResponseRedirect(reverse('orders'))
+
+    return render(request, 'checkout.html', context)
 
 @login_required(login_url='signin')
 def orders(request):
-    return render(request, 'orders.html')
+    context = {}
+    ordered_products = Order.objects.filter(user=request.user, ordered=True)
+
+    unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    
+    if unordered_products.exists():
+        product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+        context = {
+            'total_products_price': total_products_price,
+            'product_orders': product_orders,
+            'total_products_quantity': total_products_quantity,
+        }
+
+    if ordered_products.exists():
+        context['ordered_products'] = ordered_products
+
+        return render(request, 'orders.html', context)
+    else:
+        messages.info(request, "You haven't made an order yet!")
+
+        return render(request, 'orders.html')
 
 @login_required(login_url='signin')
 def postProduct(request):
+    context = {}
+    unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    
+    if unordered_products.exists():
+        product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+        context = {
+            'total_products_price': total_products_price,
+            'product_orders': product_orders,
+            'total_products_quantity': total_products_quantity,
+        }
+
     if request.method == 'POST':
         form = PostProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -157,6 +380,21 @@ def postProduct(request):
 
             return HttpResponseRedirect(reverse('post'))
 
-    return render(request, 'post.html')
+    return render(request, 'post.html', context)
 
 
+def createConstituencies():
+    COUNTY_CHOICES = {
+    # 'Mombasa': 
+    # 'Kiambu':
+    # 'Nakuru':
+    # 'Kajiado':
+    # 'Kakamega':
+    # 'Kisumu':
+    'Nairobi': ['Dagoretti North', 'Dagoretti South', 'Kibra', 'Kasarani', 'Roysambu', 'Ruaraka', 'Embakasi Central', 'Embakasi East', 'Embakasi North', 'Embakasi South', 'Embakasi West', 'Kamukunji', 'Makadara', 'Mathare', 'Starehe', 'Westlands']
+    }
+    for county in COUNTY_CHOICES:
+        for constituency in county:
+            Constituency.objects.create(county=str(county), constituency=constituency)
+
+# createCounties()

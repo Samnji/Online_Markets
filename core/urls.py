@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from advert.encrypt_url import urlEncryption, urlEncoding
 from advert.views import (
     ProductListView
 )
@@ -24,6 +25,6 @@ from advert.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ProductListView.as_view(), name='home'),
-    path('advert/', include('advert.urls')),
-    path('authentication/', include('authentication.urls')),
+    path(f"{urlEncryption('advert')}{urlEncoding('advert')}/", include('advert.urls')),
+    path(f"{urlEncryption('authentication')}{urlEncoding('authentication')}/", include('authentication.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,33 +4,59 @@
 <section style="background: #CDCCCD; border-radius: 30px; margin: 15px; margin-top: 110px;">
   <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <h1 class="text-center"><b>My <span class="text-light">Orders</span></b></h1>
+    
     <div class="table-responsive">
-      <table class="table table-striped table-sm">
-        <thead>
-          <tr>
-            <th scope="col">Product id</th>
-            <th scope="col">Photo</th>
-            <th scope="col">Product Name</th>
-            <th scope="col">Product Description</th>
-            <th scope="col">Product Type</th>
-            <th scope="col">Product Old Price</th>
-            <th scope="col">Product New Price</th>
-          </tr>
-        </thead>
-        <tbody class="text-light">
-          {% for product in object_list %}
-          <tr>
-            <td>{{product.id}}</td>
-            <td style="width: 100px;"><img style="width: 100%; border-radius: 10px;" src="{{product.photo.url}}" alt=""></td>
-            <td>{{product.name}}</td>
-            <td>{{product.description}}</td>
-            <td>{{product.type}}</td>
-            <td>Ksh {{product.old_price}}</td>
-            <td>Ksh {{product.new_price}}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+      {% include 'includes/alerts.html' %}
+      <div class="row">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Order id</th>
+              <th scope="col">Items ordered</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">ordered_date</th>
+            </tr>
+          </thead>
+          <tbody class="text-light">
+            {% for order in ordered_products %}
+            <tr>
+              <td>{{order.id}}</td>
+              <td>
+                <table class="table table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col">Product id</th>
+                      <th scope="col">Photo</th>
+                      <th scope="col">Product Name</th>
+                      <th scope="col">Product Description</th>
+                      <th scope="col">Product Type</th>
+                      <th scope="col">Product Old Price</th>
+                      <th scope="col">Product New Price</th>
+                    </tr>
+                  </thead>
+                  {% comment %} <tbody class="text-light">
+                    {% for item in order.items %}
+                    <tr>
+                      <td>{{item.id}}</td>
+                      <td style="width: 100px;"><img style="width: 100%; border-radius: 10px;" src="{{item.image.url}}" alt=""></td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.description}}</td>
+                      <td>{{item.type}}</td>
+                      <td>Ksh {{product.old_price}}</td>
+                      <td>Ksh {{product.new_price}}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody> {% endcomment %}
+                </table>
+              </td>
+              <td>{{order.start_date}}</td>
+              <td>{{order.ordered_date}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      
       <br>
       <div class="text-center text-light">
         Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}

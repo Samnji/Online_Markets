@@ -15,6 +15,17 @@ FURNITURE_CHOICES = (
     ('Furniture','Furniture'),
 )
 
+COUNTY_CHOICES = (
+    ('Mombasa', 'Mombasa'),
+    ('Kiambu', 'Kiambu'),
+    ('Nakuru', 'Nakuru'),
+    ('Kajiado', 'Kajiado'),
+    ('Kakamega', 'Kakamega'),
+    ('Kisumu', 'Kisumu'),
+    ('Nairobi', 'Nairobi'),
+
+)
+    
 class Product(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length = 100)
@@ -44,3 +55,19 @@ class Order(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Shipping(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    phone_number = models.PositiveIntegerField()
+    address = models.CharField(max_length=30)
+    county = models.CharField(max_length=30)
+    save_info = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+class County(models.Model):
+    name = models.CharField(choices=COUNTY_CHOICES, max_length=20)
+
+    def __str__(self):
+        return self.name
