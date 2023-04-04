@@ -19,11 +19,11 @@ The Project core Has The Two Apps:
 # Create Virtual Environment - Optional
 #To automate this process you may skip this
 
-#Windows, run the commands below
+Windows, run the commands below
     : python -m venv .venv
     : .venv/Scripts/activate
 
-#Linux
+Linux
     : python3 -m venv .venv
     : source .venv/bin/activate
 
