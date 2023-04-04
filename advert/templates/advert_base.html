@@ -277,7 +277,9 @@
 
   footer .footer-wrap .fw-bold {
   font-size: 1.2em;
+  font-weight: 500;
   padding: 20px 0px;
+  color: #707B7C;
   }
 
   footer .footer-wrap .about img {
@@ -295,11 +297,16 @@
 
   footer .footer-wrap .company a:hover, footer .footer-wrap .useful-links a:hover {
   color: black;
-  font-weight: 600;
+  font-weight: 500;
   }
 
   footer .footer-wrap .company p, footer .footer-wrap .useful-links p {
   margin-bottom: 0.3em;
+  }
+
+  footer .footer-wrap .company p a, footer .footer-wrap .useful-links p a {
+    text-decoration: None;
+    color: #616A6B; 
   }
 
   footer .footer-wrap .newsletter #subscribe label {
@@ -309,7 +316,8 @@
   footer .footer-wrap .newsletter #subscribe input {
   display: block;
   width: 100%;
-  background-image: url("../images/email-icon.svg");
+  border-color: #F0F3F4;
+  background-image: url("/static/images/email-icon.svg");
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: 10px center;
@@ -318,7 +326,18 @@
   }
 
   footer .footer-wrap .newsletter #subscribe button {
-  width: 100%;
+    width: 100%;
+    height: 50px;
+    font-weight: 500;
+    background-color: #d45b5f;
+    border: none;
+    border-radius: 12px;
+    margin-right: 0;
+    color: white !important;
+  }
+
+  footer .footer-wrap .newsletter #subscribe button:hover {
+    background-color: #4b4b4b;
   }
 
   footer .copyright p a {
@@ -429,23 +448,23 @@
     </main>
 
     <!-- Footer -->
-    {% comment %} <footer>
+    <footer style="background: #F7F9F9;">
       <div class="container text-center text-md-start">
-        <div class="footer-wrap">
-          <div class="about">
+        <div class="footer-wrap row">
+          <div class="about col-sm">
             <a class="navbar-brand" href="{% url 'home' %}" style="color: rgb(86, 86, 87);">Online <span style="color: rgb(24, 24, 178);">Markets</span></a>
             <p class="text-muted py-4">
               Start working with Online Markets which can provide you with all the tools needed to run an effcieint business remotely.
             </p>
             <div class="social-media">
-              <a href="" class="me-2 text-reset"><img src="img/icon/facebook-icon.svg" alt=""></a>
-              <a href="" class="me-2 text-reset"><img src="img/icon/twitter-icon.svg" alt=""></a>
-              <a href="" class="me-2 text-reset"><img src="img/icon/linkedin-icon.svg" alt=""></a>
-              <a href="" class="me-2 text-reset"><img src="img/icon/instagram-icon.svg" alt=""></a>
+              <a href="" class="me-2 text-reset"><img src="{% static 'images/facebook-icon.svg' %}" alt=""></a>
+              <a href="" class="me-2 text-reset"><img src="{% static 'images/twitter-icon.svg' %}" alt=""></a>
+              <a href="" class="me-2 text-reset"><img src="{% static 'images/linkedin-icon.svg' %}" alt=""></a>
+              <a href="" class="me-2 text-reset"><img src="{% static 'images/instagram-icon.svg' %}" alt=""></a>
             </div>
           </div>
 
-          <div class="company">
+          <div class="company col-sm">
             <h6 class="fw-bold">Company</h6>
             <p><a href="">About us</a></p>
             <p><a href="">Services</a></p>
@@ -457,7 +476,7 @@
             <p><a href="">Login</a></p>
           </div>
           
-          <div class="useful-links">
+          <div class="useful-links col-sm">
             <h6 class="fw-bold">Useful links</h6>
             <p><a href="">Terms of </a></p>
             <p><a href="">Services</a></p>
@@ -467,7 +486,7 @@
             <p><a href="">Components</a></p>
           </div>
 
-          <div class="newsletter">
+          <div class="newsletter col-sm">
             <h6 class="fw-bold">Newsletter</h6>
             <p class="text-muted">Sign up and receive the latest tips
               via email.</p>
@@ -479,15 +498,13 @@
           </div>
           
         </div>
-        
+        <div class="copyright">
+          <div class="copyright pt-4 text-muted text-center">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Online-Markets | Created by <a href="https://samuelnjiiri.netlify.app/" style="text-decoration: None;">Samuel Njiiri</a> </p>
+          </div>
+        </div>
       </div>
-    
-    </footer> {% endcomment %}
-    <div class="copyright">
-      <div class="copyright pt-4 text-muted text-center">
-        <p>&copy; <script>document.write(new Date().getFullYear())</script> Online-Markets | Created by <a href="https://samuelnjiiri.netlify.app/">Samuel Njiiri</a> </p>
-      </div>
-    </div>
+    </footer>
   </div>
   <script src="{% static 'js/form-validation.js'%}"></script>
 </body>
