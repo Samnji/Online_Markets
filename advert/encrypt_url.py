@@ -13,7 +13,6 @@ def urlEncryption(url):
     return short_encrypted_url
 
 def urlEncoding(url):
-    alphabets = ["a", "b", "c", "d", "e", "f", "g", "h", "i","j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", " "]
     encodedMsg = ''
     
     for letter in url:
