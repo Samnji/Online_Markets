@@ -49,32 +49,35 @@
 
     <br>
     <!-- Pagination -->
-    <div class="text-center text-light">
-      Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}
-    </div>
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_previous %}
-      <li class="page-item">
-        <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Previous</span>
-        </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+    {% if category_results.has_other_pages %}
+      <div class="text-center text-light">
+        Page {{category_results.number}} of {{category_results.paginator.num_pages}}
+      </div>
+      <ul class="pagination justify-content-center">
+        {% if category_results.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{category_results.previous_page_number}}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+        {% endif %}
+        
+        <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+
+        {% if category_results.has_next and category_results.paginator.num_pages != 3 and category_results.paginator.num_pages != 2 %}
+        <li class="page-item"><a class="page-link" href="#">...</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{category_results.paginator.num_pages}}">{{category_results.paginator.num_pages}}</a></li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{category_results.next_page_number}}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
       {% endif %}
-      <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
-      <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
-      {% if page_obj.has_next and page_obj.paginator.num_pages != 3 %}
-      <li class="page-item"><a class="page-link" href="#">...</a></li>
-      <li class="page-item"><a class="page-link" href="?page={{page_obj.paginator.num_pages}}">{{page_obj.paginator.num_pages}}</a></li>
-      <li class="page-item">
-        <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-          <span class="sr-only">Next</span>
-        </a>
-      </li>
-      {% endif %}
-    </ul>
 
     <br>
     

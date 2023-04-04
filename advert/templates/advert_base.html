@@ -12,8 +12,6 @@
 
 </head>
 <style>
- 
-
   body {
     content: "";
     display: block;
@@ -431,7 +429,7 @@
     </main>
 
     <!-- Footer -->
-    <footer>
+    {% comment %} <footer>
       <div class="container text-center text-md-start">
         <div class="footer-wrap">
           <div class="about">
@@ -481,14 +479,15 @@
           </div>
           
         </div>
-        <div class="copyright">
-          <div class="copyright pt-4 text-muted text-center">
-            <p>&copy; <script>document.write(new Date().getFullYear())</script> Online-Markets | Created by <a href="https://samuelnjiiri.netlify.app/">Samuel Njiiri</a> </p>
-          </div>
-        </div>
+        
       </div>
     
-    </footer>
+    </footer> {% endcomment %}
+    <div class="copyright">
+      <div class="copyright pt-4 text-muted text-center">
+        <p>&copy; <script>document.write(new Date().getFullYear())</script> Online-Markets | Created by <a href="https://samuelnjiiri.netlify.app/">Samuel Njiiri</a> </p>
+      </div>
+    </div>
   </div>
   <script src="{% static 'js/form-validation.js'%}"></script>
 </body>

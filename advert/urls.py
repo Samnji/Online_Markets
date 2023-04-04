@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from .encrypt_url import urlEncryption, urlEncoding
 
 urlpatterns = [
+    # Encrypting and encoding urls to prevent url bruteforce attack
     path(f"{urlEncryption('cart')}{urlEncoding('cart')}/", cart, name='cart'),
     path(f"{urlEncryption('checkout')}{urlEncoding('checkout')}/", checkout, name='checkout'),
     path(f"{urlEncryption('orders')}{urlEncoding('orders')}/", orders, name='orders'),

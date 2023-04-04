@@ -6,97 +6,16 @@ from django.contrib.auth.decorators import login_required
 from .forms  import *
 from django.http  import HttpResponseRedirect
 from django.contrib import messages
-from django.core.paginator import Paginator, PageNotAnInteger
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.utils import timezone
-
- 
-class ProductListView(ListView):
-    model = Product
-    template_name = 'home.html'
-    paginate_by = 5
-    
-    # unordered_products = Order.objects.filter(user=request.user, ordered=False)
-    
-    # if unordered_products.exists():
-    #     product_orders, total_products_quantity, total_products_price = calculateTotal(request)
-
-    #     context = {
-    #         'total_products_price': total_products_price,
-    #         'product_orders': product_orders,
-    #         'total_products_quantity': total_products_quantity,
-    #         # 'total_products': total_products
-    #     }
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     users = User.objects.count()
-
-    #     unordered_products = Order.objects.filter(ordered=False)
-
-    #     if is_unordered.exists():
-
-    #         order_items = items
-    #         total_products = Order.items.count() * 
-
-    #     context = {
-    #         'users': users
-    #     }
-
-    #     return context
-    
-    #     print(context)
-    
-def search(request):
-    context = {}
-    category = request.GET.get('category')
-    unordered_products = Order.objects.filter(user=request.user, ordered=False)
-    
-    if unordered_products.exists():
-        product_orders, total_products_quantity, total_products_price = calculateTotal(request)
-
-        context = {
-            'total_products_price': total_products_price,
-            'product_orders': product_orders,
-            'total_products_quantity': total_products_quantity,
-        }
-
-    try:
-        price = int(request.GET.get('price'))
-    except ValueError:
-
-        messages.info(request, "The price must be initialized with a number")
-
-        return render(request, 'search.html', context)
-
-    print(category)
-    print(type(price))
-
-    if category and price == 0:
-        category_results = Product.objects.filter(category=category)
-
-    elif category and price > 0:
-        
-        for price in range(price-3000, price+3000):
-            category_results = Product.objects.filter(category=category, new_price=price)
-            print(category_results)
-    
-    paginator = Paginator(category_results, 5)  # Display 5 items per page
-    page = request.GET.get('page')
-    try:
-        category_results = paginator.page(page)
-    except PageNotAnInteger:
-        # If page is not an integer, deliver the first page.
-        category_results = paginator.page(1)
-
-    context['category_results'] = category_results
-
-    return render(request, 'search.html', context)
+from django.contrib.auth import authenticate
 
 def calculateTotal(request):
     unordered_products = Order.objects.filter(user=request.user, ordered=False)
     product_orders = ProductOrder.objects.filter(user=request.user, ordered=False)
-    if unordered_products.exists():
-        # total_products = ProductOrder.objects.count() 
+
+    # Check if there are unordered products and calculate their quantinty and total price
+    if unordered_products.exists(): 
         total_products_quantity = 0
         total_products_price = 0
 
@@ -109,9 +28,109 @@ def calculateTotal(request):
     
         return (product_orders, total_products_quantity, total_products_price)
 
+
+def productList(request):
+    products = Product.objects.all()
+
+    # All active users
+    users = User.objects.count()
+    orders = Order.objects.filter(ordered=True).count()
+    context = {
+        'users': users,
+        'orders': orders,
+    }
+    
+    # Check if there are products to showcase or not
+    if products.exists():
+        # Pagination
+        paginator = Paginator(products, 5)
+
+        page = request.GET.get('page')
+
+        try:
+            products = paginator.page(page)
+
+        except PageNotAnInteger:
+            products = paginator.page(1)
+
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        context['products'] = products
+
+        # Check if the user has logined into their account and show the unordered products alonside the cart
+        user = authenticate()
+        if user is not None:
+            unordered_products = Order.objects.filter(user=request.user, ordered=False)
+            
+            if unordered_products.exists():
+                product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+                context['total_products_price'] = total_products_price
+                context['product_orders'] = product_orders,
+                context['total_products_quantity'] = total_products_quantity
+
+                return render(request, "home.html", context)
+        else:
+            return render(request, "home.html", context)
+
+    else:
+        messages.info(request, "There are no products yet. Post to add products.")
+
+        return render(request, "home.html", context)
+    
+def search(request):
+    context = {}
+    category = request.GET.get('category')
+
+    try:
+        price = int(request.GET.get('price'))
+    except ValueError:
+
+        messages.info(request, "The price must be initialized with a number")
+
+        return render(request, 'search.html', context)
+
+    if category and price == 0:
+        category_results = Product.objects.filter(category=category)
+
+    elif category and price > 0:
+        category_results = Product.objects.filter(category=category).filter(new_price__gte=price-3000).filter(new_price__lte=price+3000)
+    
+    paginator = Paginator(category_results, 5)  # Display 5 items per page
+    page = request.GET.get('page')
+    try:
+        category_results = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver the first page.
+        category_results = paginator.page(1)
+    except EmptyPage:
+            category_results = paginator.page(paginator.num_pages)
+
+    context['category_results'] = category_results
+
+    # Check if the user has logined into their account and show the unordered products alonside the cart
+    user = authenticate()
+    if user is not None:
+        unordered_products = Order.objects.filter(user=request.user, ordered=False)
+        
+        if unordered_products.exists():
+            product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+            context['total_products_price'] = total_products_price
+            context['product_orders'] = product_orders,
+            context['total_products_quantity'] = total_products_quantity
+
+            return render(request, 'search.html', context)
+    
+    else:
+        return render(request, 'search.html', context)
+
+
 @login_required(login_url='signin')
 def cart(request):
     unordered_products = Order.objects.filter(user=request.user, ordered=False)
+    counties = County.objects.all()
     
     if unordered_products.exists():
         product_orders, total_products_quantity, total_products_price = calculateTotal(request)
@@ -120,6 +139,7 @@ def cart(request):
             'total_products_price': total_products_price,
             'product_orders': product_orders,
             'total_products_quantity': total_products_quantity,
+            'counties': counties,
         }
         
         if request.method == 'POST':
@@ -145,6 +165,7 @@ def cart(request):
                     return render(request, 'cart.html', context)
 
             else:
+
                 return render(request, 'checkout.html', context)
         return render(request, 'cart.html', context)
 
@@ -333,10 +354,10 @@ def checkout(request):
 @login_required(login_url='signin')
 def orders(request):
     context = {}
-    ordered_products = Order.objects.filter(user=request.user, ordered=True)
-
+    ordered_products = Order.objects.filter(user=request.user, ordered=True).order_by('-id')
     unordered_products = Order.objects.filter(user=request.user, ordered=False)
     
+    # Show number of items in the cart link
     if unordered_products.exists():
         product_orders, total_products_quantity, total_products_price = calculateTotal(request)
 
@@ -347,7 +368,23 @@ def orders(request):
         }
 
     if ordered_products.exists():
-        context['ordered_products'] = ordered_products
+        order_items = []
+
+        paginator = Paginator(ordered_products, 2)
+
+        page = request.GET.get('page')
+
+        try:
+            orders = paginator.page(page)
+
+        except PageNotAnInteger:
+            orders = paginator.page(1)
+
+        except EmptyPage:
+            orders = paginator.page(paginator.num_pages)
+
+        context['orders'] = orders
+
 
         return render(request, 'orders.html', context)
     else:
@@ -360,6 +397,7 @@ def postProduct(request):
     context = {}
     unordered_products = Order.objects.filter(user=request.user, ordered=False)
     
+    # Show number of items in the cart link
     if unordered_products.exists():
         product_orders, total_products_quantity, total_products_price = calculateTotal(request)
 
@@ -382,19 +420,3 @@ def postProduct(request):
 
     return render(request, 'post.html', context)
 
-
-def createConstituencies():
-    COUNTY_CHOICES = {
-    # 'Mombasa': 
-    # 'Kiambu':
-    # 'Nakuru':
-    # 'Kajiado':
-    # 'Kakamega':
-    # 'Kisumu':
-    'Nairobi': ['Dagoretti North', 'Dagoretti South', 'Kibra', 'Kasarani', 'Roysambu', 'Ruaraka', 'Embakasi Central', 'Embakasi East', 'Embakasi North', 'Embakasi South', 'Embakasi West', 'Kamukunji', 'Makadara', 'Mathare', 'Starehe', 'Westlands']
-    }
-    for county in COUNTY_CHOICES:
-        for constituency in county:
-            Constituency.objects.create(county=str(county), constituency=constituency)
-
-# createCounties()

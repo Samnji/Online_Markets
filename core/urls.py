@@ -19,12 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from advert.encrypt_url import urlEncryption, urlEncoding
 from advert.views import (
-    ProductListView
+    productList,
 )
 
+# Encrypting and encoding urls to prevent url bruteforce attack
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', ProductListView.as_view(), name='home'),
+    path('', productList, name='home'),
     path(f"{urlEncryption('advert')}{urlEncoding('advert')}/", include('advert.urls')),
     path(f"{urlEncryption('authentication')}{urlEncoding('authentication')}/", include('authentication.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
