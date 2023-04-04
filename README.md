@@ -19,13 +19,13 @@ The Project core Has The Two Apps:
 # Create Virtual Environment - Optional
 #To automate this process you may skip this
 
-Windows, run the commands below
-    : python -m venv .venv
-    : .venv/Scripts/activate
+#Windows, run the commands below
+#python -m venv .venv
+#.venv/Scripts/activate
 
-Linux
-    : python3 -m venv .venv
-    : source .venv/bin/activate
+#Linux
+#python3 -m venv .venv
+#source .venv/bin/activate
 
 
 # clone the project from github
@@ -43,7 +43,6 @@ Linux
 #Windows
 #Then change directory to Online_Markets/setup then run
 #python install.py - Only if git is install in your windows
-
 #Linux
 #Or to automate the process first create a postgres database named "market"
 #Then change directory to Online_Markets/setup then run
