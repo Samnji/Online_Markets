@@ -39,7 +39,17 @@ def productList(request):
         'users': users,
         'orders': orders,
     }
-    
+    # Check if the user has logined into their account and show the unordered products alonside the cart
+    if request.user.is_authenticated:
+        unordered_products = Order.objects.filter(user=request.user, ordered=False)
+        
+        if unordered_products.exists():
+            product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+            context['total_products_price'] = total_products_price
+            context['product_orders'] = product_orders,
+            context['total_products_quantity'] = total_products_quantity
+
     # Check if there are products to showcase or not
     if products.exists():
         # Pagination
@@ -58,22 +68,8 @@ def productList(request):
 
         context['products'] = products
 
-        # Check if the user has logined into their account and show the unordered products alonside the cart
-        user = authenticate()
-        if user is not None:
-            unordered_products = Order.objects.filter(user=request.user, ordered=False)
-            
-            if unordered_products.exists():
-                product_orders, total_products_quantity, total_products_price = calculateTotal(request)
-
-                context['total_products_price'] = total_products_price
-                context['product_orders'] = product_orders,
-                context['total_products_quantity'] = total_products_quantity
-
-                return render(request, "home.html", context)
-        else:
-            return render(request, "home.html", context)
-
+        return render(request, "home.html", context)
+        
     else:
         messages.info(request, "There are no products yet. Post to add products.")
 
@@ -97,6 +93,8 @@ def search(request):
     elif category and price > 0:
         category_results = Product.objects.filter(category=category).filter(new_price__gte=price-3000).filter(new_price__lte=price+3000)
     
+    else:
+        messages
     paginator = Paginator(category_results, 5)  # Display 5 items per page
     page = request.GET.get('page')
     try:
@@ -108,10 +106,9 @@ def search(request):
             category_results = paginator.page(paginator.num_pages)
 
     context['category_results'] = category_results
-
+    
     # Check if the user has logined into their account and show the unordered products alonside the cart
-    user = authenticate()
-    if user is not None:
+    if request.user.is_authenticated:
         unordered_products = Order.objects.filter(user=request.user, ordered=False)
         
         if unordered_products.exists():
@@ -121,10 +118,9 @@ def search(request):
             context['product_orders'] = product_orders,
             context['total_products_quantity'] = total_products_quantity
 
-            return render(request, 'search.html', context)
+    return render(request, 'search.html', context)
+
     
-    else:
-        return render(request, 'search.html', context)
 
 
 @login_required(login_url='signin')
