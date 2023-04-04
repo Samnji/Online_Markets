@@ -35,14 +35,14 @@
       </form>
     </div>
     {% include 'includes/messages.html' %}
-    <div class="latest-products-wrapper row">
+    <div class="latest-products-wrapper row" style="margin: 25px 25px;">
       {% for product in category_results %}
-      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
-        <img style="margin-top: 10px;" src="{{product.image.url}}" alt="">
+      <div class="product col-md-2" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+        <img style="margin-top: 10px; width: 100%" src="{{product.image.url}}" alt="">
         <h5 class="title">{{product.name}}</h5>
         <p>{{product.description}}</p>
         <h6 class="card-title pricing-card-title fw-bold fst-italic">Ksh {{product.new_price}} {% if product.old_price %}<small class="text-decoration-line-through fw-light text-secondary-emphasis">Ksh {{product.old_price}}</small>{% endif %}</h6>
-        <button style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary">Add to Cart</button>
+        <a href="{% url 'add_to_cart' product_id=product.id %}" style="margin-bottom: 10px;" type="button" class="btn btn-md btn-primary text-light">Add to Cart</a>
       </div>
       {% endfor %}
     </div>

@@ -39,7 +39,7 @@
     </div>
     <div class="all-products-wrapper row">
       {% for product in products %}
-      <div class="product col-sm" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
+      <div class="product col-md-2" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">
         <img style="margin-top: 10px;" src="{{product.image.url}}" alt="">
         <h5 class="title">{{product.name}}</h5>
         <p>{{product.description}}</p>

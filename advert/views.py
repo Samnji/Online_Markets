@@ -138,6 +138,7 @@ def cart(request):
             'counties': counties,
         }
         
+        # Checking if the promo code is correct and redirecting to checkout with total products price reduced by 1000 if it is 
         if request.method == 'POST':
             if 'promo_code' in request.POST:        
                 promo_code = request.POST['promo_code']
