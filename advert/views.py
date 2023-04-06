@@ -79,6 +79,17 @@ def search(request):
     context = {}
     category = request.GET.get('category')
 
+    # Check if the user has logined into their account and show the unordered products alonside the cart
+    if request.user.is_authenticated:
+        unordered_products = Order.objects.filter(user=request.user, ordered=False)
+        
+        if unordered_products.exists():
+            product_orders, total_products_quantity, total_products_price = calculateTotal(request)
+
+            context['total_products_price'] = total_products_price
+            context['product_orders'] = product_orders,
+            context['total_products_quantity'] = total_products_quantity
+
     try:
         price = int(request.GET.get('price'))
     except ValueError:
@@ -92,9 +103,12 @@ def search(request):
 
     elif category and price > 0:
         category_results = Product.objects.filter(category=category).filter(new_price__gte=price-3000).filter(new_price__lte=price+3000)
-    
-    else:
-        messages
+
+        if category_results is None:
+            messages.info(request, "The product you are searching for is not available for now")
+            
+            return render(request, 'search.html', context)
+
     paginator = Paginator(category_results, 5)  # Display 5 items per page
     page = request.GET.get('page')
     try:
@@ -106,17 +120,6 @@ def search(request):
             category_results = paginator.page(paginator.num_pages)
 
     context['category_results'] = category_results
-    
-    # Check if the user has logined into their account and show the unordered products alonside the cart
-    if request.user.is_authenticated:
-        unordered_products = Order.objects.filter(user=request.user, ordered=False)
-        
-        if unordered_products.exists():
-            product_orders, total_products_quantity, total_products_price = calculateTotal(request)
-
-            context['total_products_price'] = total_products_price
-            context['product_orders'] = product_orders,
-            context['total_products_quantity'] = total_products_quantity
 
     return render(request, 'search.html', context)
 

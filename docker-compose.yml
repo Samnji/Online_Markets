@@ -1,0 +1,23 @@
+version: '3'
+services:
+  database:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+    environment:
+      - POSTGRES_DB=market
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Password123
+    
+  webapp:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/site
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+
+volumes:
+  postgres_data:

@@ -34,7 +34,9 @@
         </div>
       </form>
     </div>
-    {% include 'includes/messages.html' %}
+    <div style="margin: 30px;">
+      {% include 'includes/alerts.html' %}
+    </div>
     <div class="latest-products-wrapper row" style="margin: 25px 25px;">
       {% for product in category_results %}
       <div class="product col-md-2" style="border-radius: 10px; background: #F6F7F9; margin-left: 10px; margin-bottom: 10px;">

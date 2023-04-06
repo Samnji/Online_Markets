@@ -59,7 +59,7 @@ class Order(models.Model):
 class Shipping(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     phone_number = models.PositiveIntegerField()
-    address = models.CharField(max_length=30)
+    address = models.CharField(max_length=30,blank=True, null=True )
     county = models.CharField(max_length=30)
     save_info = models.BooleanField(default=False)
 
