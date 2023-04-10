@@ -10,9 +10,10 @@ The Project core Has The Two Apps:
 #Remember the urls are encrypted and encoded to prevent url bruteforce attack by an adversary.
 #Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production - Encrypting and encoding file located at advert/encrypt_url.py
 
+#The web application has been dockerized. Run the install script to install the web app but git and docker must be installed in your machine first.
+
 # Usage Disclaimer
-#The home or the landing page designed with the assumation of products should than 5 in  in order for the web application to be operational.
-#The project has not yet been dockerized
+#The home or the landing page designed with the assumation of products should be more than 5  in order for the web application to be operational.
 #You can choose to run the project inside a virtual environment or not
 
 #Incase you want to run the project inside a virtual environment
