@@ -4,7 +4,7 @@ from django.urls import reverse
 
 FURNITURE_CHOICES = (
     ('TV & Audio', 'TV & Audio'),
-    ('Phones & Tablet', 'Phones & Tablet'),
+    ('Phone & Tablet', 'Phone & Tablet'),
     ('Fashion', 'Fashion'),
     ('Gaming', 'Gaming'),
     ('Health & Beauty','Health & Beauty'),
