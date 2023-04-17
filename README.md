@@ -37,7 +37,7 @@ Then run the following command:\
 **Clone the project from github**\
 Run the following commands to clone the repo and move into the directory:\
     **git clone https://github.com/Samnji/Online_Markets.git** \
-    **cd into Online_Markets**
+    **cd Online_Markets**
 
 **Run docker compose file**\
 Run this command to run docker compose in detach mode:\
