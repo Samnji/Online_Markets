@@ -23,11 +23,15 @@ The home or the landing page designed with the assumation of products should be 
 To automate the setup process\
 *Windows*\
 Copy the code in install.py file from the setup directory and paste it into install.py file that you will create on the directory where you want to save the Online Markets folder\
-**python install.py**
+Then run the following command:\
+    **python install.py**
 
 *Linux*\
 Download the python file from the setup directory by right clicking and selecting save linked content as and save it into the directory where you want to save the Online Markets folder\
-**./install.sh**
+Make sure to change the file to executable by running the following command:\
+    **chmod 755 install.sh**\
+Then run the following command:\
+    **./install.sh**
 
 ### clone the project from github
 To automate this process you may skip this\
