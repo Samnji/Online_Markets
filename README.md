@@ -5,7 +5,7 @@ The Project core has two Apps:\
 2. **Advert** - This is where all the buying and selling of products takes place in the web application. 
 
 Remember the urls are encrypted and encoded to prevent url bruteforce attack by an adversary.\
-Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production.
+Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production.\
     - Encrypting and encoding file located at advert/encrypt_url.py
 
 The web application has been dockerized. Run the install script to install the web app but git and docker must be installed in your machine first.
