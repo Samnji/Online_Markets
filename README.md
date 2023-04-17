@@ -39,10 +39,10 @@ Run this command to run docker compose in detach mode:\
     **sudo docker compose up -d** 
 
 Then run this command:\
-    **sudo docker exec online_markets_webapp_1 python3 manage.py migrate**
+    **sudo docker exec online_markets-webapp-1 python3 manage.py migrate**
 
 And to create a superuser for the admin panel, run this command:\
-    **sudo docker exec -it online_markets_webapp_1 python3 manage.py createsuperuser**
+    **sudo docker exec -it online_markets-webapp-1 python3 manage.py createsuperuser**
 
 
 # Access The Application
@@ -55,4 +55,4 @@ To access the admin panel, click [Admin](http://127.0.0.1:8000/admin) or type *h
 
 # Running The TestCase
 Open a terminal on Online_Markets directory then run the following command:\
-    **sudo docker exec online_markets_webapp_1 python3 manage.py test**
+    **sudo docker exec online_markets-webapp-1 python3 manage.py test**
