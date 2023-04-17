@@ -31,7 +31,7 @@ Download the python file from the setup directory by right clicking and selectin
 ### clone the project from github
 To automate this process you may skip this\
 Run the following commands to clone the repo and move into the directory:\
-    **git clone https://github.com/Samnji/Online_Markets.git**
+    **git clone https://github.com/Samnji/Online_Markets.git**\
     **cd into Online_Markets**
 
 ### run docker compose file
