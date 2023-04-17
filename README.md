@@ -5,7 +5,8 @@ The Project core has two Apps:\
 2. **Advert** - This is where all the buying and selling of products takes place in the web application. 
 
 Remember the urls are encrypted and encoded to prevent url bruteforce attack by an adversary.\
-Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production - Encrypting and encoding file located at advert/encrypt_url.py
+Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production.
+    - Encrypting and encoding file located at advert/encrypt_url.py
 
 The web application has been dockerized. Run the install script to install the web app but git and docker must be installed in your machine first.
 
@@ -24,8 +25,8 @@ To automate the setup process\
 Copy the code in install.py file from the setup directory and paste it into install.py file that you will create on the directory where you want to save the Online Markets folder\
 **python install.py**
 
-Download the python file from the setup directory by right clicking and selecting save linked content as and save it into the directory where you want to save the Online Markets folder\
 *Linux*\
+Download the python file from the setup directory by right clicking and selecting save linked content as and save it into the directory where you want to save the Online Markets folder\
 **./install.sh**
 
 ### clone the project from github
