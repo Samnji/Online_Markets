@@ -36,7 +36,7 @@ Then run the following command:\
 ### Use this if there is an issue with automated install
 **Clone the project from github**\
 Run the following commands to clone the repo and move into the directory:\
-    **git clone https://github.com/Samnji/Online_Markets.git**\
+    **git clone https://github.com/Samnji/Online_Markets.git** \
     **cd into Online_Markets**
 
 **Run docker compose file**\
