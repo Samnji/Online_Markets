@@ -33,13 +33,13 @@ Make sure to change the file to executable by running the following command:\
 Then run the following command:\
     **./install.sh**
 
-### clone the project from github
-To automate this process you may skip this\
+### Use this if there is an issue with automated install
+**Clone the project from github**
 Run the following commands to clone the repo and move into the directory:\
     **git clone https://github.com/Samnji/Online_Markets.git**\
     **cd into Online_Markets**
 
-### run docker compose file
+**Run docker compose file**
 Run this command to run docker compose in detach mode:\
     **sudo docker compose up -d** 
 
