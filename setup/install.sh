@@ -3,9 +3,10 @@
 git clone https://github.com/Samnji/Online_Markets.git
 
 cd Online_Markets/
-sudo docker compose up
-# . .venv/bin/activate
+
+sudo docker compose up -d
+sudo docker exec online_markets_webapp_1 python3 manage.py migrate
 
 # To backup and restore databases to and from a docker container
-# docker exec <container_name_or_id> pg_dump -U <database_user> <database_name> > backup.sql
-# cat backup.sql | docker exec -i <container_name_or_id> psql -U <database_user> <database_name>
+# docker exec online_markets-database-1 pg_dump -U postgres market > backup.sql
+# cat backup.sql | docker exec -i online_markets-database-1 psql -U postgres market 

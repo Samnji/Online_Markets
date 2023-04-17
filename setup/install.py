@@ -5,8 +5,5 @@ os.system("git clone https://github.com/Samnji/Online_Markets.git")
 
 os.system("cd Online_Markets/")
 
-os.sytem("python -m venv .venv")
-
-os.system(".venv/Scripts/activate")
-
-os.system("pip install -r requirements.txt")
+os.system("docker compose up -d")
+os.system("docker exec online_markets_webapp_1 python3 manage.py migrate")

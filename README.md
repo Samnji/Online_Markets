@@ -1,77 +1,51 @@
 # Online_Markets
 
-# How to set up and run  the Project
+The Project core has two Apps:\
+1. **Authentication** - The app enables the users to create accounts with strong passwords to improve the login page's security from bruteforce attacks.
+2. **Advert** - This is where all the buying and selling of products takes place in the web application. 
 
-# Note
-The Project core Has The Two Apps:
-#1. Authentication - The app enables the users to create accounts with strong passwords to improve the login page's security from bruteforce attacks.
-#2. Advert - This is where all the buying and selling of products takes place in the web application. 
+Remember the urls are encrypted and encoded to prevent url bruteforce attack by an adversary.\
+Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production - Encrypting and encoding file located at advert/encrypt_url.py
 
-#Remember the urls are encrypted and encoded to prevent url bruteforce attack by an adversary.
-#Admin and media urls haven't been encrypted and encoded yet for easy accessibility while debuging but advised to encrypted and encoded them in production - Encrypting and encoding file located at advert/encrypt_url.py
+The web application has been dockerized. Run the install script to install the web app but git and docker must be installed in your machine first.
 
-#The web application has been dockerized. Run the install script to install the web app but git and docker must be installed in your machine first.
-
-# Usage Disclaimer
+## Usage Disclaimer
 #The home or the landing page designed with the assumation of products should be more than 5  in order for the web application to be operational.
-#You can choose to run the project inside a virtual environment or not
 
-#Incase you want to run the project inside a virtual environment
-# Create Virtual Environment - Optional
-#To automate this process you may skip this
+## How to set up and run  the Project
+### Setup automation
+To automate the setup process\
+*Windows*
+**python install.py - Only if git is install in your windows**
 
-#Windows, run the commands below
-#python -m venv .venv
-#.venv/Scripts/activate
+*Linux*
+**./install.sh**
 
-#Linux
-#python3 -m venv .venv
-#source .venv/bin/activate
+### clone the project from github
+To automate this process you may skip this\
+Run the following commands to clone the repo and move into the directory:\
+    **git clone https://github.com/Samnji/Online_Markets.git**
+    **cd into Online_Markets**
 
+### run docker compose file
+Run this command to run docker compose in detach mode:\
+    **sudo docker compose up -d** 
 
-# clone the project from github
-#To automate this process you may skip this
-#git clone https://github.com/Samnji/Online_Markets.git
-#cd into Online_Markets
+Then run this command:\
+    **sudo docker exec online_markets_webapp_1 python3 manage.py migrate**
 
-# Install Dependencies
-#To automate this process you may skip this
-#pip install -r requirements.txt - Windows only
-
-# Changes to the setup before running the app
-#Or to automate the process first create a postgres database could "market"
-
-#Windows
-#Then change directory to Online_Markets/setup then run
-#python install.py - Only if git is install in your windows
-#Linux
-#Or to automate the process first create a postgres database named "market"
-#Then change directory to Online_Markets/setup then run
-#./install.sh
-
-#Make sure you have changed the the postgres logins in the .env file before running the server
-#Run the server by running this command on terminal
-#python manage.py runserver - Windows
-#python3 manage.py runserver - Linux
-
-# Create SuperUser
-#Run the command below on your terminal/cmd
-#python manage.py createsuperuser
-
-#Run the server by running this command on terminal
-#python manage.py runserver
+And to create a superuser for the admin panel, run this command:\
+    **sudo docker exec -it online_markets_webapp_1 python3 manage.py createsuperuser**
 
 
 # Access The Application
-#Open this ip on your browser http://127.0.0.1:8000 to access the web application
+Open click [App](http://127.0.0.1:8000) or type *http://127.0.0.1:8000* on your browser  to access the web application.
 
-#Access the post page first and try to post more than 5 products in order to view them in the home or landing page
-#Promo code - "This is the promo code"
+Access the post page first and try to post more than 5 products in order to view them in the home or landing page\
+    Promo code - **"This is the promo code"**
 
-#To access the admin panel, go to http://127.0.0.1:8000/admin
+To access the admin panel, click [Admin](http://127.0.0.1:8000/admin) or type *http://127.0.0.1:8000/admin* on your browser go to http://127.0.0.1:8000/admin
 
 # Running The TestCase
-#Open a terminal on Online_Markets directory then type
-#Windows - python manage.py test
-#Linux - python3 manage.py test
-
+Open a terminal on Online_Markets directory then run the following command:\
+    **sudo docker exec online_markets_webapp_1 python3 manage.py test**
