@@ -10,15 +10,22 @@ Admin and media urls haven't been encrypted and encoded yet for easy accessibili
 The web application has been dockerized. Run the install script to install the web app but git and docker must be installed in your machine first.
 
 ## Usage Disclaimer
-#The home or the landing page designed with the assumation of products should be more than 5  in order for the web application to be operational.
+The home or the landing page designed with the assumation of products should be more than 5  in order for the web application to be operational.
 
 ## How to set up and run  the Project
+### Setup tools to install first
+1. git
+2. docker
+3. docker-compose - optional, depends on which linux distro you are using.
+
 ### Setup automation
 To automate the setup process\
-*Windows*
-**python install.py - Only if git is install in your windows**
+*Windows*\
+Copy the code in install.py file from the setup directory and paste it into install.py file that you will create on the directory where you want to save the Online Markets folder\
+**python install.py**
 
-*Linux*
+Download the python file from the setup directory by right clicking and selecting save linked content as and save it into the directory where you want to save the Online Markets folder\
+*Linux*\
 **./install.sh**
 
 ### clone the project from github
