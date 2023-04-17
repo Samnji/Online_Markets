@@ -26,8 +26,8 @@ Copy the code in install.py file from the setup directory and paste it into inst
 Then run the following command:\
     **python install.py**
 
-*Linux*\
-Copy the code in install.py file from the setup directory and paste it into install.py file that you will create on the directory where you want to save the Online Markets folder\
+*Linux or Mac*\
+Copy the code in install.sh file from the setup directory and paste it into install.py file that you will create on the directory where you want to save the Online Markets folder\
 Make sure to change the file to executable by running the following command:\
     **chmod 755 install.sh**\
 Then run the following command:\
